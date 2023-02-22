@@ -5,7 +5,6 @@ FROM node:18-bullseye as build
 WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm install
-COPY . .
 RUN ng build --configuration production --output-path=/dist
 
 ################
