@@ -1,16 +1,12 @@
 #################
 # Build the app #
 #################
-FROM node:18-bullseye as build
+FROM node:18-bullseye
+RUN mkdir /app
 WORKDIR /app
-COPY package.json package-lock.json ./
+COPY package.json package-lock.json /app
+
 RUN npm install
-RUN ng build --configuration production --output-path=/dist
-
-################
-# Run in NGINX #
-################
-FROM nginx:1.23.1 as base
-COPY --from=build /dist /usr/share/nginx/html
-
-CMD ["/bin/sh",  "-c",  "exec nginx -g 'daemon off;'"]
+COPY . /app
+EXPOSE 9000
+CMD ["npm",  "start"]
